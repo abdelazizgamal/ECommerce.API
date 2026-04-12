@@ -1,4 +1,4 @@
-
+using ECommerce.DAL;
 namespace E_Commerce_APIs
 {
     public class Program
@@ -12,6 +12,9 @@ namespace E_Commerce_APIs
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDALServices(builder.Configuration);
+            
 
             var app = builder.Build();
 
