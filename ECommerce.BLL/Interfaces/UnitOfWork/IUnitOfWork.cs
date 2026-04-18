@@ -1,6 +1,6 @@
 ﻿using ECommerce.BLL.Entities;
 
-namespace ECommerce.BLL
+namespace ECommerce.BLL.Interfaces.UnitOfWork
 {
     public interface IUnitOfWork
     {

@@ -13,6 +13,39 @@ namespace ECommerce.DAL
             _context = context;
         }
 
+
+        public async Task<IEnumerable<T>> GetAllGenericAsync
+            (
+                Expression<Func<T, bool>>? expression = null,
+                Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+                bool trackChanges = false,
+                params Expression<Func<T, object>>[] includes
+            )
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (expression is not null)
+            {
+                query = query.Where(expression);
+            }
+
+            if (orderBy is not null)
+            {
+                query = orderBy(query);
+            }
+
+            if (trackChanges == false)
+            {
+                query = query.AsNoTracking();
+            }
+            if (includes != null)
+                foreach (var include in includes)
+                    query = query.Include(include);
+
+
+            return await query.ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
            return await _context.Set<T>().AsNoTracking().ToListAsync();
