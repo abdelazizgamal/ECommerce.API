@@ -19,6 +19,7 @@ namespace ECommerce.DAL
 
             builder.Property(o => o.UserId)
                 .IsRequired();
+            builder.HasIndex(o => o.UserId);
 
             builder.Property(o => o.TotalAmount)
                 .HasColumnType("decimal(18,2)")

@@ -8,9 +8,9 @@ public class ProductSeed
     public decimal Price { get; set; }
     public int Stock { get; set; }
 
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
-    public string CategoryName { get; set; } // 🔥 بدل CategoryId
+    public string CategoryName { get; set; }
 
     public DateTime CreatedAt { get; set; }
 }

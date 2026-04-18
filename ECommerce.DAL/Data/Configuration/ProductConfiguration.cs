@@ -27,6 +27,7 @@ namespace ECommerce.DAL
 
             builder.Property(p => p.Stock)
                 .IsRequired();
+            
 
             builder.Property(p => p.ImageUrl)
                 .HasMaxLength(1000);
