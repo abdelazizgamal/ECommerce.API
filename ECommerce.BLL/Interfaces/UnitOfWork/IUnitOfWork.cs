@@ -1,7 +1,6 @@
 ﻿using ECommerce.BLL.Entities;
 
-namespace ECommerce.BLL.Interfaces.UnitOfWork
-{
+namespace ECommerce.BLL;
     public interface IUnitOfWork
     {
         IProductRepository Products { get; }

@@ -9,7 +9,9 @@ namespace ECommerce.BLL
         /*------------------------------------------------------------------*/
         Task<Product?> GetByIdWithCategoryAsync(int ProductID);
         /*------------------------------------------------------------------*/
-        Task<PagedResult<Product>> GetProductsPagination(PaginationParameters? paginationParameters);
+        Task<PagedResult<ProductReadDTO>> GetProductsPagination(PaginationParameters? paginationParameters);
         /*------------------------------------------------------------------*/
+
+        Task<bool> TitleCheck(string title);
     }
 }

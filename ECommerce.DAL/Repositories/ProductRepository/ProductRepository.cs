@@ -1,5 +1,4 @@
-﻿using CompanySystem.Common;
-using ECommerce.BLL;
+﻿using ECommerce.BLL;
 using ECommerce.BLL.Entities;
 using ECommerce.Common;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ namespace ECommerce.DAL
             return await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == ProductID);
         }
 
-        public async Task<PagedResult<Product>> GetProductsPagination(PaginationParameters? paginationParameters)
+        public async Task<PagedResult<ProductReadDTO>> GetProductsPagination(PaginationParameters? paginationParameters)
         {
             IQueryable<Product> query = _context.Set<Product>().AsQueryable();
 
@@ -42,9 +41,18 @@ namespace ECommerce.DAL
 
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-            return new PagedResult<Product>
+            return new PagedResult<ProductReadDTO>
             {
-                Items = items,
+                Items = items.Select(e => new ProductReadDTO
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Description = e.Description,
+                    Price = e.Price,
+                    Count = e.Stock,
+                    Category = e.Category.Name,
+                    ImgUrl = e.ImageUrl
+                }).ToList(),
                 Metadata = new PaginationMetadata
                 {
                     CurrentPage = pageNumber,
@@ -55,6 +63,12 @@ namespace ECommerce.DAL
                     HasPrevious = pageNumber > totalPages,
                 }
             };
+
         }
+        public async Task<bool> TitleCheck(string title)
+        {
+            return await _context.Products.AnyAsync(p => p.Title == title);
+        }
+
     }
 }

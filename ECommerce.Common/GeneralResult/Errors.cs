@@ -1,4 +1,4 @@
-﻿namespace CompanySystem.Common
+﻿namespace ECommerce.Common
 {
     public class Errors
     {

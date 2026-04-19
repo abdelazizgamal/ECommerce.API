@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CompanySystem.Common
+namespace ECommerce.Common
 {
     public class GeneralResult
     {
