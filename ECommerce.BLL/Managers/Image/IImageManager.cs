@@ -1,9 +1,9 @@
-﻿using CompanySystem.Common;
+﻿using ECommerce.Common;
 
-namespace CompanySystem.BLL
+namespace ECommerce.BLL
 {
     public interface IImageManager
     {
-        Task<GeneralResult<ImageUploadResultDto>> UploadAsync(ImageUploadDto imageUploadDto, string basePath, string? schema, string? host);
+        //Task<GeneralResult<ImageUploadResultDto>> UploadAsync(ImageUploadDto imageUploadDto, string basePath, string? schema, string? host);
     }
 }

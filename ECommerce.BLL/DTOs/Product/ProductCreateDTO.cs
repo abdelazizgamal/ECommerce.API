@@ -1,7 +1,7 @@
 ﻿namespace ECommerce.BLL
 
 {
-    public class ProductCreateDTO
+    public record ProductCreateDTO
     {
         
         public  string Title { get; set; }

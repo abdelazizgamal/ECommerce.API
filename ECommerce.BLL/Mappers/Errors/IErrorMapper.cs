@@ -5,6 +5,6 @@ namespace ECommerce.BLL
 {
     public interface IErrorMapper
     {
-        Dictionary<string, List<Errors>> MapError(ValidationResult validationResult);
+        Dictionary<string, List<Error>> MapError(ValidationResult validationResult);
     }
 }

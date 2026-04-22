@@ -1,7 +1,7 @@
 ﻿namespace ECommerce.BLL
 
 {
-    public class CategoryReadDTO
+    public sealed record CategoryReadDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

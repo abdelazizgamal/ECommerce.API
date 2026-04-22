@@ -8,17 +8,17 @@ namespace ECommerce.Common
         public string Message { get; set; } = string.Empty;
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Dictionary<string, List<Errors>>? Errors { get; set; }
+        public Dictionary<string, List<Error>>? Errors { get; set; }
         public static GeneralResult SuccessResult(string message = "Success")
             => new() { Success = true, Message = message, Errors = null };
 
         public static GeneralResult NotFound(string message = "Resource not found.")
             => new() { Success = false, Message = message, Errors = null };
 
-        public static GeneralResult FailResult(string message = "Operation faild.")
+        public static GeneralResult FailResult(string message = "Operation failed.")
             => new() { Success = false, Message = message, Errors = null };
 
-        public static GeneralResult FailResult(Dictionary<string, List<Errors>> errors ,string message = "One or more validation errors occurred.")
+        public static GeneralResult FailResult(Dictionary<string, List<Error>> errors ,string message = "One or more validation errors occurred.")
             => new() { Success = false, Message = message, Errors = errors };
     }
 
@@ -39,7 +39,7 @@ namespace ECommerce.Common
         public static new GeneralResult<T> FailResult(string message = "Operation faild.")
             => new() { Success = false, Message = message, Errors = null };
 
-        public static new GeneralResult<T> FailResult(Dictionary<string, List<Errors>> errors, string message = "One or more validation errors occurred.")
+        public static new GeneralResult<T> FailResult(Dictionary<string, List<Error>> errors, string message = "One or more validation errors occurred.")
             => new() { Success = false, Message = message, Errors = errors };
     }
 }

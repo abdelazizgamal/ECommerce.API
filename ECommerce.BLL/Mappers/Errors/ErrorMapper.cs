@@ -5,13 +5,13 @@ namespace  ECommerce.BLL
 {
     public class ErrorMapper : IErrorMapper
     {
-        public Dictionary<string, List<Errors>> MapError(ValidationResult validationResult)
+        public Dictionary<string, List<Error>> MapError(ValidationResult validationResult)
         {
             return validationResult.Errors
                     .GroupBy(r => r.PropertyName)
                     .ToDictionary(
                         g => g.Key,
-                        g => g.Select(e => new Errors
+                        g => g.Select(e => new Error
                         {
                             Code = e.ErrorCode,
                             Message = e.ErrorMessage,

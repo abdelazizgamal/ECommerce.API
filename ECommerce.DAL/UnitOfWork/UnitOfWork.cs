@@ -1,6 +1,5 @@
 ﻿using ECommerce.BLL;
 using ECommerce.BLL.Entities;
-using ECommerce.BLL.Interfaces.UnitOfWork;
 namespace ECommerce.DAL
 {
     public class UnitOfWork : IUnitOfWork

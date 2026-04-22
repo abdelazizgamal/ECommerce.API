@@ -1,4 +1,6 @@
+using Scalar.AspNetCore;
 using ECommerce.DAL;
+using ECommerce.BLL;
 namespace E_Commerce_APIs
 {
     public class Program
@@ -14,7 +16,8 @@ namespace E_Commerce_APIs
             builder.Services.AddOpenApi();
 
             builder.Services.AddDALServices(builder.Configuration);
-            
+            builder.Services.AddBLLServices();
+
 
             var app = builder.Build();
 
@@ -22,6 +25,7 @@ namespace E_Commerce_APIs
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();

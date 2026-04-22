@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ECommerce.BLL
 
 {
-    public class ProductEditDTO
+    public record ProductEditDTO
     {
         public int Id { get; set; }
 

@@ -1,7 +1,7 @@
-﻿using CompanySystem.Common;
+﻿using ECommerce.Common;
 using FluentValidation;
 
-namespace CompanySystem.BLL
+namespace ECommerce.BLL
 {
     public class ImageManager : IImageManager
     {

@@ -3,7 +3,7 @@
 namespace ECommerce.BLL
 
 {
-    public class CategoryEditDTO
+    public record CategoryEditDTO
     {
         public int Id { get; set; }
 

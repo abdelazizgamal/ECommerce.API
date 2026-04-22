@@ -1,6 +1,4 @@
 ﻿using ECommerce.BLL;
-using ECommerce.BLL.Entities;
-using ECommerce.BLL.Interfaces.UnitOfWork;
 using ECommerce.DAL.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

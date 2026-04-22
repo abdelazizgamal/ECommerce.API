@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.BLL
 {
-    public class ProductReadDTO
+    public record ProductReadDTO
     {
         public int Id { get; set; }
         public required string Title { get; set; }

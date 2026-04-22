@@ -16,9 +16,9 @@ namespace ECommerce.BLL
         Task<GeneralResult<ProductReadDTO>> CreateProductAsync(ProductCreateDTO productCreateDTO);
         /*------------------------------------------------------------------*/
 
-        Task<int> EditProductAsync(ProductEditDTO productEditVM);
+        Task<GeneralResult<ProductReadDTO>> EditProductAsync(ProductEditDTO productEditVM);
         /*------------------------------------------------------------------*/
-        Task<int> DeleteProduct(int id);
+        Task<GeneralResult<ProductReadDTO>> DeleteProduct(int id);
         Task<bool> TitleExist(string title);
 
     }

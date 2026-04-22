@@ -1,8 +1,8 @@
-﻿//using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-//namespace CompanySystem.BLL
-//{
-//    public sealed record ImageUploadDto(IFormFile File);
+namespace ECommerce.BLL
+{
+    public sealed record ImageUploadDto(IFormFile File);
 
-   
-//}
+
+}

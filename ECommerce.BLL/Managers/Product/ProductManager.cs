@@ -9,11 +9,13 @@ namespace ECommerce.BLL
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<ProductCreateDTO> _productCreateValidator;
+        private readonly IValidator<ProductEditDTO> _productEditValidator;
         private readonly IErrorMapper _errorMapper;
-        public ProductManager(IUnitOfWork unitOfWork, IValidator<ProductCreateDTO> validator, IErrorMapper errorMapper)
+        public ProductManager(IUnitOfWork unitOfWork, IValidator<ProductCreateDTO> validator, IValidator<ProductEditDTO> productEditValidator, IErrorMapper errorMapper)
         {
             _unitOfWork = unitOfWork;
             _productCreateValidator = validator;
+            _productEditValidator = productEditValidator;
             _errorMapper = errorMapper;
         }
 
@@ -111,15 +113,27 @@ namespace ECommerce.BLL
             return GeneralResult<ProductReadDTO>.FailResult("Failed to create product");
         }
 
-        public async Task<int> EditProductAsync(ProductEditDTO productEditDTO)
+        public async Task<GeneralResult<ProductReadDTO>> EditProductAsync(ProductEditDTO productEditDTO)
         {
+            var validationResult = await _productEditValidator.ValidateAsync(productEditDTO);
+            if (!validationResult.IsValid)
+            {
+                var errors = _errorMapper.MapError(validationResult);
+                return GeneralResult<ProductReadDTO>.FailResult(errors);
+            }
+
             var productUpdate = await _unitOfWork.Products.GetByIdAsync(productEditDTO.Id);
 
             if (productUpdate == null)
             {
-                return 0;
+                return GeneralResult<ProductReadDTO>.NotFound();
             }
 
+            var cat = await _unitOfWork.Categories.GetByIdAsync(productEditDTO.CategoryId);
+            if (cat == null)
+            {
+                return GeneralResult<ProductReadDTO>.FailResult("Category not found");
+            }
 
 
             productUpdate.Title = productEditDTO.Title;
@@ -127,21 +141,44 @@ namespace ECommerce.BLL
             productUpdate.Price = productEditDTO.Price;
             productUpdate.Stock = productEditDTO.Count;
             productUpdate.CategoryId = productEditDTO.CategoryId;
+            productUpdate.ImageUrl = productEditDTO.ImgUrl;
 
-          
+            var result = await _unitOfWork.SaveChangesAsync();
+            if (result == 0)
+            {
+                return GeneralResult<ProductReadDTO>.FailResult("Failed to update product");
+            }
 
-            return await _unitOfWork.SaveChangesAsync();
+            var productReadDTO = new ProductReadDTO
+            {
+                Id = productUpdate.Id,
+                Title = productUpdate.Title,
+                Description = productUpdate.Description,
+                Price = productUpdate.Price,
+                Count = productUpdate.Stock,
+                Category = cat.Name,
+                ImgUrl = productUpdate.ImageUrl
+            };
+
+            return GeneralResult<ProductReadDTO>.SuccessResult(productReadDTO);
         }
-        public async Task<int> DeleteProduct(int productId)
+        public async Task<GeneralResult<ProductReadDTO>> DeleteProduct(int productId)
         {
             var productDelete = await _unitOfWork.Products.GetByIdAsync(productId);
 
             if (productDelete == null)
             {
-                return 0;
+                return GeneralResult<ProductReadDTO>.NotFound();
             }
             _unitOfWork.Products.Delete(productDelete);
-            return await _unitOfWork.SaveChangesAsync();
+
+            var result = await _unitOfWork.SaveChangesAsync();
+            if (result == 0)
+            {
+                return GeneralResult<ProductReadDTO>.FailResult("Failed to delete product");
+            }
+
+            return GeneralResult<ProductReadDTO>.SuccessResult("Deleted successfully");
         }
 
         public async Task<bool> TitleExist(string title)

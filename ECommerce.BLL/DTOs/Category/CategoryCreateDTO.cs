@@ -1,7 +1,7 @@
 ﻿namespace ECommerce.BLL
 
 {
-    public class CategoryCreateDTO
+    public record CategoryCreateDTO
     {
         public string Name { get; set; }
 
