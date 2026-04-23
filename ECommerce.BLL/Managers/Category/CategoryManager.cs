@@ -50,7 +50,8 @@ namespace ECommerce.BLL
 
             var categoryCreate = new Category
             {
-                Name = categoryCreateDto.Name
+                Name = categoryCreateDto.Name,
+                Description = categoryCreateDto.Description
             };
             _unitOfWork.Categories.Insert(categoryCreate);
             var result = await _unitOfWork.SaveChangesAsync();

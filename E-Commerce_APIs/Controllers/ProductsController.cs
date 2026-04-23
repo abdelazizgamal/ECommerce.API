@@ -1,5 +1,6 @@
 ﻿using ECommerce.BLL;
 using ECommerce.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.APIs
@@ -35,6 +36,7 @@ namespace ECommerce.APIs
 
         [HttpGet]
         [Route("{id:int}")]
+
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> GetById([FromRoute] int id)
         {
             var state = await _productManager.GetProductByIdAsync(id);
@@ -48,6 +50,7 @@ namespace ECommerce.APIs
 
         [HttpPost]
         [Route("Create")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> CreateAsync([FromBody] ProductCreateDTO product)
         {
             var result = await _productManager.CreateProductAsync(product);
@@ -60,6 +63,7 @@ namespace ECommerce.APIs
         // 🔹 UPDATE
         [HttpPut]
         [Route("Update")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> UpdateAsync([FromBody] ProductEditDTO product)
         {
             var result = await _productManager.EditProductAsync(product);
@@ -81,6 +85,7 @@ namespace ECommerce.APIs
         // 🔹 DELETE
         [HttpDelete]
         [Route("Delete/{id:int}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> DeleteAsync([FromRoute] int id)
         {
             var result = await _productManager.DeleteProduct(id);

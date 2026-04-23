@@ -1,10 +1,11 @@
 ﻿using ECommerce.BLL.Entities;
 using ECommerce.Common;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.DAL
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext: IdentityDbContext<AppUser,AppRole, string>
     {
         public AppDbContext(): base()
         {

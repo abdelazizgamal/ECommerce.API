@@ -1,4 +1,5 @@
 ﻿using ECommerce.BLL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.DAL.Seed;
@@ -7,7 +8,6 @@ public static class SeedRunner
 {
     public static async Task RunAsync(DbContext context)
     {
-        // 🔹 Categories
         if (!await context.Set<Category>().AnyAsync())
         {
             var categories = SeedDataProvider.GetCategories();
@@ -15,7 +15,6 @@ public static class SeedRunner
             await context.SaveChangesAsync();
         }
 
-        // 🔹 Products
         if (!await context.Set<Product>().AnyAsync())
         {
             var categories = await context.Set<Category>()
@@ -29,7 +28,7 @@ public static class SeedRunner
                     Price = p.Price,
                     Stock = p.Stock,
                     ImageUrl = p.ImageUrl,
-                    CategoryId = categories[p.CategoryName], // 🔥 mapping
+                    CategoryId = categories[p.CategoryName], 
                     CreatedAt = p.CreatedAt
                 });
 
