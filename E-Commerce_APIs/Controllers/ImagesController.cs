@@ -1,5 +1,6 @@
 ﻿using ECommerce.BLL;
 using ECommerce.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.APIs.Controllers
@@ -20,6 +21,7 @@ namespace ECommerce.APIs.Controllers
         /*------------------------------------------------------------------*/
         [HttpPost]
         [Route("upload")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ImageUploadResultDto>>> UploadAsync([FromForm] ImageUploadDto imageUploadDto)
         {
             var schema = Request.Scheme;

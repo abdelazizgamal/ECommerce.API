@@ -15,7 +15,7 @@ namespace ECommerce.BLL
                 .MinimumLength(3)
                 .WithMessage("Title Minmum Len is 3")
                 .WithErrorCode("Err-2")
-                .MustAsync(CheckUniqueTitle)
+                .MustAsync((dto, title, cancellationToken) => CheckUniqueTitle(dto.Id, title, cancellationToken))
                 .WithMessage("Title already exists")
                 .WithErrorCode("Err-3");
 
@@ -45,10 +45,15 @@ namespace ECommerce.BLL
                 .WithErrorCode("Err-8");
         }
 
-        public async Task<bool> CheckUniqueTitle(String title, CancellationToken cancellationToken)
+        public async Task<bool> CheckUniqueTitle(int productId, string title, CancellationToken cancellationToken)
         {
-            var flag = await _unitOfWork.Products.TitleCheck(title);
-            return !flag;
+            var products = await _unitOfWork.Products.FindAsync(p => p.Title == title);
+            if (products is null)
+            {
+                return true;
+            }
+
+            return !products.Any(p => p.Id != productId);
         }
     }
 }

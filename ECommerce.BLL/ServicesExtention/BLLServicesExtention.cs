@@ -8,12 +8,12 @@ namespace ECommerce.BLL
         {
             services.AddScoped<IProductManager, ProductManager>();
             services.AddScoped<ICategoryManager, CategoryManager>();
-            //services.AddScoped<IImageManager, ImageManager>();
 
             services.AddValidatorsFromAssembly(typeof(BLLServicesExtention).Assembly);
             services.AddScoped<IErrorMapper, ErrorMapper>();
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<ICartManager, CartManager>();
+            services.AddScoped<IImageManager, ImageManager>();
 
         }
     }

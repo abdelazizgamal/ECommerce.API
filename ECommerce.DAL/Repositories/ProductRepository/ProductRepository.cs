@@ -81,7 +81,7 @@ namespace ECommerce.DAL
     IQueryable<Product> query,
     ProductFilterParameters productFilterParameters)
         {
-
+           
             if (productFilterParameters.CategoryId.HasValue)
             {
                 query = query.Where(p => p.CategoryId == productFilterParameters.CategoryId.Value);

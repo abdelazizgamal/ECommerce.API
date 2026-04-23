@@ -24,6 +24,29 @@ namespace ECommerce.BLL
                 PaginationParameters paginationParameters, ProductFilterParameters? productFilterParameters = null
             )
         {
+            if (paginationParameters.PageNumber <= 0 || paginationParameters.PageSize <= 0)
+            {
+                return GeneralResult<PagedResult<ProductReadDTO>>.FailResult("Invalid pagination parameters");
+            }
+
+            if (productFilterParameters is not null)
+            {
+                if (productFilterParameters.CategoryId.HasValue)
+                {
+                    if (productFilterParameters.CategoryId.Value <= 0)
+                    {
+                        return GeneralResult<PagedResult<ProductReadDTO>>.FailResult("Category Id must be greater than 0");
+                    }
+
+                    var category = await _unitOfWork.Categories.GetByIdAsync(productFilterParameters.CategoryId.Value);
+                    if (category is null)
+                    {
+                        return GeneralResult<PagedResult<ProductReadDTO>>.NotFound("Category not found");
+                    }
+                }
+
+            }
+
             var pagedResult = await _unitOfWork.Products.GetProductsPagination(paginationParameters, productFilterParameters);
 
             return GeneralResult<PagedResult<ProductReadDTO>>.SuccessResult(pagedResult);
@@ -116,6 +139,7 @@ namespace ECommerce.BLL
         public async Task<GeneralResult<ProductReadDTO>> EditProductAsync(ProductEditDTO productEditDTO)
         {
             var validationResult = await _productEditValidator.ValidateAsync(productEditDTO);
+
             if (!validationResult.IsValid)
             {
                 var errors = _errorMapper.MapError(validationResult);
@@ -133,6 +157,30 @@ namespace ECommerce.BLL
             if (cat == null)
             {
                 return GeneralResult<ProductReadDTO>.FailResult("Category not found");
+            }
+
+            var hasChanges =
+                productUpdate.Title != productEditDTO.Title ||
+                productUpdate.Description != productEditDTO.Description ||
+                productUpdate.Price != productEditDTO.Price ||
+                productUpdate.Stock != productEditDTO.Count ||
+                productUpdate.CategoryId != productEditDTO.CategoryId ||
+                (!string.IsNullOrEmpty(productEditDTO.ImgUrl) && productUpdate.ImageUrl != productEditDTO.ImgUrl);
+
+            if (!hasChanges)
+            {
+                var unchangedProductReadDTO = new ProductReadDTO
+                {
+                    Id = productUpdate.Id,
+                    Title = productUpdate.Title,
+                    Description = productUpdate.Description,
+                    Price = productUpdate.Price,
+                    Count = productUpdate.Stock,
+                    Category = cat.Name,
+                    ImgUrl = productUpdate.ImageUrl
+                };
+
+                return GeneralResult<ProductReadDTO>.SuccessResult(unchangedProductReadDTO, "No changes detected");
             }
 
 

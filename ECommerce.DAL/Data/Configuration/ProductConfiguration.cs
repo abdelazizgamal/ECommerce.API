@@ -19,7 +19,8 @@ namespace ECommerce.DAL
                 .HasMaxLength(200);
 
             builder.Property(p => p.Description)
-                .HasMaxLength(1000);
+                .HasMaxLength(1000)
+                .IsRequired();
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(18,2)")

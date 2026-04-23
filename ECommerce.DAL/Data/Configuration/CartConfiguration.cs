@@ -15,8 +15,6 @@ namespace ECommerce.DAL
             builder.Property(c => c.UserId)
                 .IsRequired();
 
-            builder.Property(c => c.UpdatedAt)
-                .IsRequired();
 
             // 1:1 User → Cart
             builder.HasIndex(c => c.UserId)
