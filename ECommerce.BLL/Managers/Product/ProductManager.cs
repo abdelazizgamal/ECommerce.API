@@ -21,11 +21,11 @@ namespace ECommerce.BLL
 
         public async Task<GeneralResult<PagedResult<ProductReadDTO>>> GetProductsPaginationAsync
             (
-                PaginationParameters paginationParameters
+                PaginationParameters paginationParameters, ProductFilterParameters? productFilterParameters = null
             )
         {
-            var pagedResult = await _unitOfWork.Products.GetProductsPagination(paginationParameters);
-            
+            var pagedResult = await _unitOfWork.Products.GetProductsPagination(paginationParameters, productFilterParameters);
+
             return GeneralResult<PagedResult<ProductReadDTO>>.SuccessResult(pagedResult);
         }
 

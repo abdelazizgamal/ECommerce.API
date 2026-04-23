@@ -18,6 +18,15 @@ namespace ECommerce.DAL
                 .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
+        public async Task<IEnumerable<Cart>> GetAllCartsWithDetailsAsync()
+        {
+            return await _context.Carts
+                .Include(c => c.Items)
+                .ThenInclude(ci => ci.Product)
+                .OrderByDescending(c => c.Id)
+                .ToListAsync();
+        }
+
         public async Task<Cart?> GetCartWithDetailsByUserIdAsync(string userId)
         {
             return await _context.Carts

@@ -23,6 +23,14 @@ namespace ECommerce.BLL
             _errorMapper = errorMapper;
         }
 
+        public async Task<GeneralResult<IEnumerable<CartReadDTO>>> GetAllCartsAsync()
+        {
+            var carts = await _unitOfWork.Carts.GetAllCartsWithDetailsAsync();
+            var cartsReadDto = carts.Select(MapCartToReadDto);
+
+            return GeneralResult<IEnumerable<CartReadDTO>>.SuccessResult(cartsReadDto);
+        }
+
         public async Task<GeneralResult<CartReadDTO>> GetCartAsync(string userId)
         {
             var cart = await _unitOfWork.Carts.GetCartWithDetailsByUserIdAsync(userId);

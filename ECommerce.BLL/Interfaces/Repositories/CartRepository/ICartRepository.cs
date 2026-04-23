@@ -5,6 +5,7 @@ namespace ECommerce.BLL
     public interface ICartRepository : IGenericRepository<Cart>
     {
         Task<Cart?> GetCartByUserIdAsync(string userId);
+        Task<IEnumerable<Cart>> GetAllCartsWithDetailsAsync();
 
         Task<Cart?> GetCartWithDetailsByUserIdAsync(string userId);
 

@@ -81,6 +81,9 @@ namespace ECommerce.DAL
         {
             _context.Set<T>().Remove(entity);
         }
-
+        public void DeleteRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
+        }
     }
 }

@@ -29,6 +29,14 @@ public class CartsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("all")]
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<ActionResult<GeneralResult<IEnumerable<CartReadDTO>>>> GetAllCartsAsync()
+    {
+        var result = await _cartManager.GetAllCartsAsync();
+        return Ok(result);
+    }
+
     [HttpPost("items")]
     public async Task<ActionResult<GeneralResult<CartReadDTO>>> AddToCartAsync([FromBody] AddToCartDTO dto)
     {

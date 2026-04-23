@@ -12,6 +12,8 @@ namespace ECommerce.BLL
 
             services.AddValidatorsFromAssembly(typeof(BLLServicesExtention).Assembly);
             services.AddScoped<IErrorMapper, ErrorMapper>();
+            services.AddScoped<IOrderManager, OrderManager>();
+            services.AddScoped<ICartManager, CartManager>();
 
         }
     }

@@ -5,7 +5,7 @@ namespace ECommerce.BLL
     public interface IProductManager
     { /*------------------------------------------------------------------*/
 
-        Task<GeneralResult<PagedResult<ProductReadDTO>>> GetProductsPaginationAsync(PaginationParameters paginationParameters);
+        Task<GeneralResult<PagedResult<ProductReadDTO>>> GetProductsPaginationAsync(PaginationParameters paginationParameters, ProductFilterParameters? productFilterParameters);
 
         // Get All Products (View Model)
         Task<GeneralResult<IEnumerable<ProductReadDTO>>> GetProductsAsync();

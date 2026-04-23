@@ -20,10 +20,11 @@ namespace ECommerce.APIs
         [Route("Pagination")]
         public async Task<ActionResult<GeneralResult<IEnumerable<ProductReadDTO>>>> GetAllPaginationAsync
             (
-                [FromQuery] PaginationParameters paginationParameters
+                [FromQuery] PaginationParameters paginationParameters,
+                [FromQuery] ProductFilterParameters? productFilterParameters = null
             )
         {
-            var result = await _productManager.GetProductsPaginationAsync(paginationParameters);
+            var result = await _productManager.GetProductsPaginationAsync(paginationParameters, productFilterParameters);
             return Ok(result);
         }
 
