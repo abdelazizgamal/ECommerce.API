@@ -150,7 +150,7 @@ The project ERD is included below. Keep `ERD.png` in the same folder as `README.
 ## Getting Started
 
 ### Prerequisites
-- .NET 8 SDK
+- .NET 9 SDK
 - SQL Server
 - Visual Studio 2022 or VS Code
 
