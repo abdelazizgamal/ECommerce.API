@@ -8,7 +8,7 @@ namespace ECommerce.BLL
         IGenericRepository<Category> Categories { get; }
 
         IGenericRepository<Order> Orders { get; }
-        IGenericRepository<Cart> Carts { get; }
+        ICartRepository Carts { get; }
         IGenericRepository<CartItem> CartItems { get; }
         IGenericRepository<OrderItem> OrderItems { get; }
 

@@ -9,7 +9,7 @@ namespace ECommerce.DAL
         public IProductRepository Products { get; }
         public IGenericRepository<Category> Categories { get; }
         public IGenericRepository<Order> Orders { get; }
-        public IGenericRepository<Cart> Carts { get; }
+        public ICartRepository Carts { get; }
         public IGenericRepository<CartItem> CartItems { get; }
         public IGenericRepository<OrderItem> OrderItems { get; }
 
@@ -18,7 +18,7 @@ namespace ECommerce.DAL
             IProductRepository productRepository,
             IGenericRepository<Category> categoryRepository,
             IGenericRepository<Order> orderRepository,
-            IGenericRepository<Cart> cartRepository,
+            ICartRepository cartRepository,
             IGenericRepository<CartItem> cartItemRepository,
             IGenericRepository<OrderItem> orderItemRepository)
         {
