@@ -26,17 +26,18 @@ namespace ECommerce.BLL
                     .Select(c => new CategoryReadDTO
                     {
                         Id = c.Id,
-                        Name = c.Name
+                        Name = c.Name,
+                        ImageUrl = c.ImageUrl
                     });
             return categoryReadDto;
         }
         public async Task<CategoryReadDTO?> GetCategoryByIdAsync(int id)
         {
-            var categoryReadDto = await _unitOfWork.Categories.GetByIdAsync(id);
-            if (categoryReadDto == null)
+            var category= await _unitOfWork.Categories.GetByIdAsync(id);
+            if (category == null)
             { return null; }
 
-            return new CategoryReadDTO { Id = categoryReadDto.Id, Name = categoryReadDto.Name };
+            return new CategoryReadDTO { Id = category.Id, Name = category.Name, ImageUrl = category.ImageUrl };
         }
 
         public async Task<GeneralResult<CategoryReadDTO>> CreateCategoryAsync(CategoryCreateDTO categoryCreateDto)
@@ -51,7 +52,8 @@ namespace ECommerce.BLL
             var categoryCreate = new Category
             {
                 Name = categoryCreateDto.Name,
-                Description = categoryCreateDto.Description
+                Description = categoryCreateDto.Description,
+                ImageUrl = categoryCreateDto.ImageUrl
             };
             _unitOfWork.Categories.Insert(categoryCreate);
             var result = await _unitOfWork.SaveChangesAsync();
@@ -84,6 +86,9 @@ namespace ECommerce.BLL
                 return GeneralResult<CategoryReadDTO>.NotFound();
 
             category.Name = categoryEditDto.Name;
+            category.Description = categoryEditDto.Description;
+            if (categoryEditDto.ImageUrl != null)
+                category.ImageUrl = categoryEditDto.ImageUrl;
             var result = await _unitOfWork.SaveChangesAsync();
 
             if (result == 0)

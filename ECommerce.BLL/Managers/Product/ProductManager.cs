@@ -141,7 +141,8 @@ namespace ECommerce.BLL
             productUpdate.Price = productEditDTO.Price;
             productUpdate.Stock = productEditDTO.Count;
             productUpdate.CategoryId = productEditDTO.CategoryId;
-            productUpdate.ImageUrl = productEditDTO.ImgUrl;
+            if (!string.IsNullOrEmpty(productEditDTO.ImgUrl))
+                productUpdate.ImageUrl = productEditDTO.ImgUrl;
 
             var result = await _unitOfWork.SaveChangesAsync();
             if (result == 0)

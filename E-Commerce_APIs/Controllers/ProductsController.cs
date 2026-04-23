@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.APIs
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -17,21 +17,27 @@ namespace ECommerce.APIs
         }
 
         [HttpGet]
-        [Route("Pagination")]
-        public async Task<ActionResult<GeneralResult<IEnumerable<ProductReadDTO>>>> GetAllPaginationAsync
+        public async Task<ActionResult<GeneralResult<PagedResult<ProductReadDTO>>>> GetAllAsync
             (
-                [FromQuery] PaginationParameters paginationParameters,
-                [FromQuery] ProductFilterParameters? productFilterParameters = null
+                [FromQuery] int pageNumber = 1,
+                [FromQuery] int pageSize = 10,
+                [FromQuery] int? categoryId = null,
+                [FromQuery] string? name = null
             )
         {
-            var result = await _productManager.GetProductsPaginationAsync(paginationParameters, productFilterParameters);
-            return Ok(result);
-        }
+            var paginationParameters = new PaginationParameters
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResult<IEnumerable<ProductReadDTO>>>> GetAll()
-        {
-            var result = await _productManager.GetProductsAsync();
+            var productFilterParameters = new ProductFilterParameters
+            {
+                CategoryId = categoryId,
+                Search = name
+            };
+
+            var result = await _productManager.GetProductsPaginationAsync(paginationParameters, productFilterParameters);
             return Ok(result);
         }
 
@@ -50,7 +56,7 @@ namespace ECommerce.APIs
 
 
         [HttpPost]
-        [Route("Create")]
+        [Route("")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> CreateAsync([FromBody] ProductCreateDTO product)
         {
@@ -62,11 +68,11 @@ namespace ECommerce.APIs
             return Ok(result);
         }
         // 🔹 UPDATE
-        [HttpPut]
-        [Route("Update")]
+        [HttpPut("{id:int}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<ActionResult<GeneralResult<ProductReadDTO>>> UpdateAsync([FromBody] ProductEditDTO product)
+        public async Task<ActionResult<GeneralResult<ProductReadDTO>>> UpdateAsync([FromRoute] int id, [FromBody] ProductEditDTO product)
         {
+            product.Id = id;
             var result = await _productManager.EditProductAsync(product);
 
             if (!result.Success)
@@ -84,8 +90,7 @@ namespace ECommerce.APIs
 
 
         // 🔹 DELETE
-        [HttpDelete]
-        [Route("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<GeneralResult<ProductReadDTO>>> DeleteAsync([FromRoute] int id)
         {

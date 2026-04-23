@@ -81,25 +81,6 @@ namespace ECommerce.DAL
     IQueryable<Product> query,
     ProductFilterParameters productFilterParameters)
         {
-            if (productFilterParameters.MinPrice > 0)
-            {
-                query = query.Where(p => p.Price >= productFilterParameters.MinPrice);
-            }
-
-            if (productFilterParameters.MaxPrice > 0)
-            {
-                query = query.Where(p => p.Price <= productFilterParameters.MaxPrice);
-            }
-
-            if (productFilterParameters.MinStock > 0)
-            {
-                query = query.Where(p => p.Stock >= productFilterParameters.MinStock);
-            }
-
-            if (productFilterParameters.MaxStock > 0)
-            {
-                query = query.Where(p => p.Stock <= productFilterParameters.MaxStock);
-            }
 
             if (productFilterParameters.CategoryId.HasValue)
             {
